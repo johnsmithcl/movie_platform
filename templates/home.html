@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+Home - Movie Platform
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <!-- Movie Listings -->
+    <div class="row">
+        {% if page_obj %}
+            {% for movie in page_obj %}
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        {% if movie.poster %}
+                            <img src="{{ movie.poster.url }}" class="card-img-top" alt="{{ movie.title }}" style="height: 200px; object-fit: cover;">
+                        {% endif %}
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">{{ movie.title }}</h5>
+                            <p class="card-text">{{ movie.description|truncatewords:20 }}</p>
+                            <div class="mt-auto">
+                              <a href="{% url 'app1:movie_detail' movie.category.slug movie.slug %}" class="btn btn-primary btn-block">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="col-12">
+                <p class="text-center">No movies available at the moment. Please check back later!</p>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Pagination Controls -->
+    <div class="d-flex justify-content-center mt-4">
+        <ul class="pagination">
+            {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page=1{% if current_category %}&category={{ current_category.slug }}{% endif %}" aria-label="First Page">First</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if current_category %}&category={{ current_category.slug }}{% endif %}" aria-label="Previous Page">Previous</a>
+            </li>
+            {% endif %}
+            {% for num in page_obj.paginator.page_range %}
+                <li class="page-item {% if page_obj.number == num %}active{% endif %}">
+                    <a class="page-link" href="?page={{ num }}{% if current_category %}&category={{ current_category.slug }}{% endif %}">{{ num }}</a>
+                </li>
+            {% endfor %}
+            {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if current_category %}&category={{ current_category.slug }}{% endif %}" aria-label="Next Page">Next</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}{% if current_category %}&category={{ current_category.slug }}{% endif %}" aria-label="Last Page">Last</a>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+</div>
+{% endblock %}

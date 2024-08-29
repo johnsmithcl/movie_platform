@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ movie.title }} - Movie Details
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-3">
+            <!-- Movie image column -->
+            <img class="my_image my_image_padding" src="{{ movie.poster.url }}" alt="{{ movie.title }}" style="width:100%; max-height: 200px;"><br><br>
+            <p class="card-text">Rating: {{ average_rating|default:"N/A" }}</p><br><br>
+
+           {% if user.is_authenticated %}
+    {% if user == movie.added_by or user.is_superuser %}
+        <a class="btn btn-warning" href="{% url 'app1:edit_movie' movie.category.slug movie.slug %}">Edit</a>
+        <a class="btn btn-danger" href="{% url 'app1:delete_movie' movie.category.slug movie.slug %}">Delete</a>
+    {% endif %}
+{% endif %}
+
+        </div>
+
+        <div class="col-md-5">
+            <!-- Movie details column -->
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title">{{ movie.title }}</h2>
+                    <p class="card-text">{{ movie.description }}</p>
+                    <p><strong>Release Date:</strong> {{ movie.release_date }}</p>
+                    <p><strong>Category:</strong> {{ movie.category.name }}</p>
+                    <p><strong>YouTube Link:</strong> <a href="{{ movie.link }}" target="_blank" style="color:blue;">Trailer</a></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <!-- Reviews column -->
+            <h4>Reviews</h4>
+            {% for review in reviews %}
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <p><strong>{{ review.user.username }}</strong> rated it {{ review.rating }}/10</p>
+                        <p>{{ review.review }}</p>
+                    </div>
+                </div>
+            {% empty %}
+                <p>No reviews yet. Be the first to review this movie!</p>
+            {% endfor %}
+            <a href="{% url 'app1:add_review' movie.category.slug movie.slug %}" class="btn btn-success mt-3">Add Your Review</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}Your Movies{% endblock %}
+{% block content %}
+<h2>Your Movies</h2>
+<div class="row">
+    {% for movie in user_movies %}
+    <div class="col-md-4">
+        <div class="card mb-4 shadow-sm">
+            <img class="card-img-top" src="{{ py movie.poster.url }}" alt="{{ movie.title }}">
+            <div class="card-body">
+                <h5 class="card-title">{{ movie.title }}</h5>
+                <p class="card-text">{{ movie.description|truncatewords:20 }}</p>
+                <a href="{% url 'app1:movie_detail' movie.category.slug movie.slug %}" class="btn btn-primary">View Details</a>
+                <a href="{% url 'app1:edit_movie' movie.id %}" class="btn btn-warning">Edit</a>
+                <a href="{% url 'app1:delete_movie' movie.id %}" class="btn btn-danger">Delete</a>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <p>You have not added any movies yet.</p>
+    {% endfor %}
+</div>
+{% endblock %}
