@@ -1,8 +1,8 @@
-Movie Platform Project
+# Movie Platform Project
 
 This project is a Django-based web application that allows users to register, log in, add movies, leave reviews, and explore movie details. The platform features a user-friendly interface and includes functionalities like profile management, movie categorization, and movie ratings.
 
-Features
+# Features
 User Registration and Authentication: Users can register, log in, log out, and manage their profiles.
 Movie Listings: Browse movies categorized by genres with pagination support.
 Movie Details: Each movie has a detail page displaying the description, release date, reviews, and average rating.
@@ -11,13 +11,13 @@ Review System: Users can leave reviews and rate movies on a scale of 1 to 10.
 Profile Management: Users can edit their profile, including updating their bio and profile picture.
 Search and Filter: Movies can be filtered by categories, and a search feature allows for easier navigation.
 
-Technologies Used
+# Technologies Used
 
 Backend: Django (Python)
 Frontend: HTML, CSS (Bootstrap), JavaScript
 Database: SQLite (default)
 
-Additional:
+# Additional:
 Django Authentication System
 Slugify for URL management
 UUID for unique movie identification
@@ -28,7 +28,7 @@ Django 4.x
 Pillow (for handling images)
 
 
-Installation
+# Installation
 
 Clone the repository:
 git clone https://github.com/yourusername/movie-platform.git
@@ -50,8 +50,8 @@ python manage.py createsuperuser
 Run the development server:
 python manage.py runserver
 
-Access the platform:
+# Access the platform:
 Open your browser and go to http://127.0.0.1:8000/ to view the movie platform.
 
-Contributing
+# Contributing
 Feel free to fork this repository, make your changes, and submit a pull request. Contributions are welcome!
