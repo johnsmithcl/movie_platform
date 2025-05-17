@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 from .models import User_reg, Movie, ReviewRatings
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 
@@ -26,3 +27,4 @@ class EditProfileForm(forms.ModelForm):
         super(EditProfileForm, self).__init__(*args, **kwargs)
         # Customize the form fields if needed
         self.fields['bio'].widget = forms.Textarea(attrs={'rows': 3})
+
