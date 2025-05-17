@@ -8,9 +8,14 @@ from django.core.paginator import Paginator
 from django.db.models import Avg
 from .forms import ReviewForm
 from .forms import MovieForm
+from django.contrib.auth.forms import UserCreationForm
 import uuid
 from django.utils.text import slugify
-
+import pandas as pd
+from sklearn.metrics.pairwise import cosine_similarity
+from django.shortcuts import render, redirect
+from .recommender import get_recommendations_for_user
+from .models import ReviewRatings, Movie
 def register(request):
     if request.method == 'POST':
         form = UserForm(request.POST)
@@ -174,3 +179,18 @@ def add_review(request, c_slug, m_slug):
 
     return render(request, 'review.html', {'movie': movie, 'form': form})
 
+
+def personalized_recommendations(request):
+    if not request.user.is_authenticated:
+        return redirect('app1:login')
+
+    recommended_movies = get_recommendations_for_user(request.user)
+    return render(request, 'recommendations.html', {'recommendations': recommended_movies})
+
+def landing_page(request):
+    return render(request, 'landing.html')
+
+@login_required
+def home(request):
+    movies = Movie.objects.all()
+    return render(request, 'home.html', {'movies': movies})
